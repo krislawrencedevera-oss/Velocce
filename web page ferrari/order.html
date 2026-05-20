@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customize Your Ferrari</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .order-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(15, 15, 15, 0.9);
+            padding: 40px;
+            border-radius: 15px;
+            color: #fff;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 0 30px rgba(255, 20, 20, 0.6);
+            backdrop-filter: blur(15px);
+            border: 1px solid #333;
+        }
+
+        .order-title {
+            font-size: 40px;
+            color: #ff1414;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            text-align: center;
+        }
+
+        .order-subtitle {
+            text-align: center;
+            color: #aaa;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .price-display {
+            font-size: 36px;
+            font-weight: bold;
+            color: #fff;
+            text-align: center;
+            margin-bottom: 30px;
+            text-shadow: 0 0 15px rgba(255, 20, 20, 0.6);
+        }
+
+        .section-title {
+            font-size: 20px;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #333;
+            padding-bottom: 5px;
+            color: #fff;
+        }
+
+        .colors-wrapper {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            justify-content: center;
+        }
+
+        .color-option {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: 0.3s;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .color-option:hover {
+            transform: scale(1.1);
+        }
+
+        .color-option.selected {
+            border-color: #fff;
+            transform: scale(1.15);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+        }
+
+        .options-wrapper {
+            margin-bottom: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .checkbox-container input {
+            width: 20px;
+            height: 20px;
+            accent-color: #ff1414;
+            cursor: pointer;
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            font-size: 18px;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+            text-transform: uppercase;
+            font-weight: bold;
+            width: 48%;
+            text-align: center;
+        }
+
+        .btn-cancel {
+            background: transparent;
+            color: #fff;
+            border: 2px solid #555;
+        }
+
+        .btn-cancel:hover {
+            border-color: #fff;
+        }
+
+        .btn-submit {
+            background: #ff1414;
+            color: #fff;
+        }
+
+        .btn-submit:hover {
+            background: #cc0000;
+            box-shadow: 0 0 15px #ff1414;
+        }
+
+        /* Success Message */
+        #success-msg {
+            display: none;
+            text-align: center;
+            color: #14ff72;
+            font-size: 24px;
+            margin-top: 20px;
+            font-weight: bold;
+            animation: pulse 1s infinite alternate;
+        }
+
+        @keyframes pulse {
+            from {
+                opacity: 0.7;
+            }
+
+            to {
+                opacity: 1;
+                text-shadow: 0 0 10px #14ff72;
+            }
+        }
+    </style>
+</head>
+
+<body id="order-body"
+    style="background-size: cover; background-position: center; height: 100vh; margin: 0; overflow: hidden; background-color: #111;">
+    <header>
+        <nav>
+            <a href="home.html">Home</a>
+            <a href="about.html">About Us</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+    </header>
+
+    <div class="order-container">
+        <h1 class="order-title" id="car-title">Customize</h1>
+        <div class="order-subtitle">Configure your bespoke vehicle</div>
+        <div class="price-display" id="total-price"></div>
+
+        <div class="section-title">Exterior Color</div>
+        <div class="colors-wrapper" id="color-options">
+            <!-- Colors injected via JS -->
+        </div>
+
+        <div class="section-title">Interior & Materials</div>
+        <div class="options-wrapper">
+            <label class="checkbox-container">
+                <input type="checkbox" id="leather-option" onchange="updatePrice()">
+                Premium Vintage Leather Interior (+$15,000)
+            </label>
+        </div>
+
+        <div class="btn-group">
+            <button class="btn btn-cancel" onclick="window.history.back()">Cancel</button>
+            <button class="btn btn-submit" onclick="placeOrder()">Place Order</button>
+        </div>
+
+        <div id="success-msg">Order Placed Successfully!</div>
+    </div>
+
+    <script>
+        // Ferrari Colors
+        const ferrariColors = {
+            red: { hex: '#ff1414', name: 'Rosso Corsa' },
+            yellow: { hex: '#ffcc00', name: 'Giallo Modena' },
+            black: { hex: '#111111', name: 'Nero' },
+            white: { hex: '#f0f0f0', name: 'Bianco Avus' },
+            blue: { hex: '#002244', name: 'Blu Tour de France' },
+            silver: { hex: '#c0c0c0', name: 'Argento Nurburgring' }
+        };
+
+        const carData = {
+            'amalfi': { name: 'Ferrari Amalfi', img: 'amalfi.jpg', basePrice: 250000, colors: ['red', 'yellow', 'black'] },
+            'purosangue': { name: 'Ferrari Purosangue', img: 'ferrari-purosangue-1419550.jpg', basePrice: 398350, colors: ['red', 'yellow', 'black', 'white', 'blue'] },
+            'laferrari': { name: 'LaFerrari', img: 'laferrari.jpg', basePrice: 1400000, colors: ['red', 'black'] },
+            'sf90': { name: 'SF90 Stradale', img: 'sf90.jpg', basePrice: 524000, colors: ['red', 'yellow', 'black', 'silver', 'blue'] },
+            '812': { name: '812 Superfast', img: '812.jpg', basePrice: 335000, colors: ['red', 'yellow', 'black', 'white', 'silver'] }
+        };
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const carId = urlParams.get('car') || 'amalfi';
+        const car = carData[carId];
+        let selectedColor = null;
+
+        if (car) {
+            // Set Background and Title
+            document.getElementById('order-body').style.backgroundImage = `linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.9)), url('${car.img}')`;
+            document.getElementById('car-title').innerText = car.name;
+
+            // Build Color Options
+            const colorContainer = document.getElementById('color-options');
+            car.colors.forEach((colorKey, index) => {
+                const c = ferrariColors[colorKey];
+                const div = document.createElement('div');
+                div.className = 'color-option' + (index === 0 ? ' selected' : '');
+                div.style.backgroundColor = c.hex;
+                div.title = c.name;
+
+                if (index === 0) selectedColor = colorKey;
+
+                div.onclick = () => {
+                    document.querySelectorAll('.color-option').forEach(el => el.classList.remove('selected'));
+                    div.classList.add('selected');
+                    selectedColor = colorKey;
+                    updatePrice();
+                };
+                colorContainer.appendChild(div);
+            });
+            
+            updatePrice();
+        }
+
+        function updatePrice() {
+            if (!car) return;
+            let total = car.basePrice;
+            
+            // Leather Option
+            if (document.getElementById('leather-option').checked) {
+                total += 15000;
+            }
+            
+            // Color premiums
+            if (selectedColor === 'blue') total += 5000;
+            if (selectedColor === 'silver') total += 3000;
+            
+            document.getElementById('total-price').innerText = '$' + total.toLocaleString();
+        }
+
+        function placeOrder() {
+            const hasLeather = document.getElementById('leather-option').checked;
+            console.log(`Ordered ${car.name} in ${ferrariColors[selectedColor].name}. Leather: ${hasLeather}`);
+
+            // Show Success Msg
+            document.querySelector('.btn-group').style.display = 'none';
+            document.getElementById('success-msg').style.display = 'block';
+
+            setTimeout(() => {
+                window.location.href = 'home.html';
+            }, 3000);
+        }
+    </script>
+</body>
+
+</html>

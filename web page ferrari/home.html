@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animated Image Slider</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header>
+        <nav>
+            <a href="home.html" class="active">Home</a>
+            <a href="about.html">About Us</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+        <img src="out-0.png" class="logo-top-right" alt="Logo">
+    </header>
+
+    <div class="carousel">
+
+        <div class="list">
+
+
+
+            <div class="item" style="background-image: url(amalfi.jpg);">
+                <div class="content">
+                    <div class="title">FERRARI</div>
+                    <div class="name">AMALFI</div>
+                    <div class="des">
+                        <div class="btn">
+                            <button onclick="window.location.href='stats.html?car=amalfi'">See More</button>
+                            <button onclick="window.location.href='order.html?car=amalfi'">Order Now</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="item" style="background-image: url(ferrari-purosangue-1419550.jpg);">
+
+                <div class="content">
+                    <div class="title">FERRARI</div>
+                    <div class="name">PUROSANGUE</div>
+                    <div class="des">
+                        <div class="btn">
+                            <button onclick="window.location.href='stats.html?car=purosangue'">See More</button>
+                            <button onclick="window.location.href='order.html?car=purosangue'">Order Now</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="item" style="background-image: url(laferrari.jpg);">
+                <div class="content">
+                    <div class="title">FERRARI</div>
+                    <div class="name">LAFERRARI</div>
+                    <div class="des">
+                        <div class="btn">
+                            <button onclick="window.location.href='stats.html?car=laferrari'">See More</button>
+                            <button onclick="window.location.href='order.html?car=laferrari'">Order Now</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="item" style="background-image: url(sf90.jpg);">
+                <div class="content">
+                    <div class="title">FERRARI</div>
+                    <div class="name">SF90</div>
+                    <div class="des">
+                        <div class="btn">
+                            <button onclick="window.location.href='stats.html?car=sf90'">See More</button>
+                            <button onclick="window.location.href='order.html?car=sf90'">Order Now</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="item" style="background-image: url(812.jpg );">
+                <div class="content">
+                    <div class="title">FERRARI</div>
+                    <div class="name">812SUPERFAST</div>
+                    <div class="des">
+                        <div class="btn">
+                            <button onclick="window.location.href='stats.html?car=812'">See More</button>
+                            <button onclick="window.location.href='order.html?car=812'">Order Now</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+
+        <div class="arrows">
+            <button class="prev">&lt;</button>
+            <button class="next">&gt;</button>
+
+        </div>
+
+        <div class="timeRunning">
+        </div>
+
+        <script src="app.js"></script>
+</body>
+
+</html>
